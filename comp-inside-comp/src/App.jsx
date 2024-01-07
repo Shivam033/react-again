@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 
+import axios from "axios";
 import { useState } from "react"
 import { useEffect } from "react"
 
@@ -9,18 +10,20 @@ function App() {
   const [todos, setTodos] = useState([]);
 
   useEffect(()=>{
-    setInterval(() => {
-      fetch("https://sum-server.100xdevs.com/todos")
-      .then(async(res)=>{
-      console.log(res);
-      const json = await res.json();
-      setTodos(json.todos);
+    // fetch("")
+    // .then(async(res)=>{
+    // const json = await res.json();
+    // setTodos(json.todos);
+    // })
+    axios.get("https://sum-server.100xdevs.com/todos").then((resp)=>{
+      setTodos(resp.data.todos);
     })
-    }, 2000);
+    // setInterval(() => {
+    // }, 2000);
   }, [])
   return (
     <>
-      <CardWrapper>
+      {/* <CardWrapper>
         Hello
       </CardWrapper>
       <CardWrapper>
@@ -30,7 +33,7 @@ function App() {
       </CardWrapper>
       <CardWrapper>
         Hello
-      </CardWrapper>
+      </CardWrapper> */}
       {todos.map(todo => <Todo key={todo.id} title={todo.title} desc={todo.desc}></Todo>)}
     </>
   )
@@ -49,12 +52,12 @@ function Todo({title, desc}){
   )
 }
 
-function CardWrapper({children}) {
-  return (
-    <div style={{border: "2px solid black"}}>
-      {children}
-    </div> 
-  ) 
-}
+// function CardWrapper({children}) {
+//   return (
+//     <div style={{border: "2px solid black"}}>
+//       {children}
+//     </div> 
+//   ) 
+// }
 
 export default App
